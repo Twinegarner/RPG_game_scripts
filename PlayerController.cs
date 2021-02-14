@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;//player movement speed
+    private float currentMoveSpeed;//handles the diangnal movespeed
     private bool PlayerMoving; // keeps track of player currently moving
     public Vector2 LastMove; //saves the last move of the player
 
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private bool attacking;//keeps track if the player is attacking and the time doing it
     public float attackTime;
     private float attackTimeCounter;
+
+    public string startPoint;//the player start point in each level
     // Start is called before the first frame update
     
     void Start()
@@ -48,17 +51,17 @@ public class PlayerController : MonoBehaviour
             {
                 //the delta time is for fram rate issues movespeed is the over all player movement 
                 //---transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-                myRigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, myRigidbody2D.velocity.y);
+                myRigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * currentMoveSpeed, myRigidbody2D.velocity.y);
                 //playermovement update
                 PlayerMoving = true;
                 //save last movment
                 LastMove = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
 
             }
-            else if (Input.GetAxisRaw("Vertical") != 0f)//checks if player is moving on y axis
+            if (Input.GetAxisRaw("Vertical") != 0f)//checks if player is moving on y axis
             {
                 //---transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-                myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, Input.GetAxisRaw("Vertical") * moveSpeed);
+                myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, Input.GetAxisRaw("Vertical") * currentMoveSpeed);
                 //playermovement update
                 PlayerMoving = true;
                 //save last movment
@@ -83,6 +86,17 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Attack", true);//update animator
 
             }
+            //handle the diagnale movemnt
+            if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f && Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.5f)
+            {
+                currentMoveSpeed = moveSpeed / 1.414f;
+            }
+            else
+            {
+                currentMoveSpeed = moveSpeed;
+            }
+
+
         }
 
         if(attackTimeCounter > 0)//the delay between attacks

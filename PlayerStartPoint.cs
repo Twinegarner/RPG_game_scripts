@@ -10,18 +10,22 @@ public class PlayerStartPoint : MonoBehaviour
 
     public Vector2 startDirection;
 
+    public string pointName;//the player starting point 
+
     // Start is called before the first frame update
     void Start()
     {
         //find the objects on start the player and camera
         theCamera = FindObjectOfType<CameraController>();
-        theCamera.transform.position = new Vector3(transform.position.x,transform.position.y,theCamera.transform.position.z);
-
         thePlayer = FindObjectOfType<PlayerController>();
-        thePlayer.transform.position = transform.position; //get the new postion of the starting point
-        //save player direction
-        thePlayer.LastMove = startDirection;
 
+        if (thePlayer.startPoint == pointName)
+        {
+            theCamera.transform.position = new Vector3(transform.position.x, transform.position.y, theCamera.transform.position.z);
+            thePlayer.transform.position = transform.position; //get the new postion of the starting point
+                                                               //save player direction
+            thePlayer.LastMove = startDirection;
+        }
     }
 
     // Update is called once per frame

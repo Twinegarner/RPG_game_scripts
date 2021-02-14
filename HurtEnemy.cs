@@ -29,6 +29,7 @@ public class HurtEnemy : MonoBehaviour
             other.gameObject.GetComponent<EnemyHealthManager>().hurtEnemy(damageToGive);
             Instantiate(damageBurst, hitPoint.position, hitPoint.rotation);//this adds the blood effect to the sword hits
             var clone = (GameObject) Instantiate(damageNumber, hitPoint.position, Quaternion.Euler(Vector3.zero));//adds the damge numbers to zero
+            clone.GetComponent<FloatingNumbers>().textColor = Color.white;//white for enemy damage
             clone.GetComponent<FloatingNumbers>().damageNumbers = damageToGive;//pass the damge number to the gamecomponet
 
 

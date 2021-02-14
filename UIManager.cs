@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Slider HPbar;
+    public Slider HPbar;//the hp bar and slider info
     public Text HPtext;
-    public PlayerHealthManager playerHealth;
+    public PlayerHealthManager playerHealth;//call to player health
+
+    private PlayerStats thePS;// the player stats call
+    public Text levelText;//the info on the players level text
 
     private static bool UIExists;
 
@@ -24,6 +27,8 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        //get the player stats
+        thePS = GetComponent<PlayerStats>();
 
 
     }
@@ -34,6 +39,9 @@ public class UIManager : MonoBehaviour
         //set up player  health
         HPbar.maxValue = playerHealth.PlayerMaxHealth;
         HPbar.value = playerHealth.PlayerHealth;
-        HPtext.text = "HP: " + playerHealth.PlayerHealth.ToString() + "/" + playerHealth.PlayerMaxHealth.ToString();
+        HPtext.text = "HP: " + playerHealth.PlayerHealth.ToString() + "/" + playerHealth.PlayerMaxHealth.ToString();//get the hp and write it to the hp bar and text
+        //exp
+        levelText.text = "Lvl: " + thePS.currentLevel;
+
     }
 }
