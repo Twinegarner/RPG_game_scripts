@@ -15,6 +15,10 @@ public class VillagerMovement : MonoBehaviour
     private float walkCounter;
     private int walkDirection;//choose a walk direction for the npc 0=up,1=right,2=down,3=left
 
+    public Collider2D walkZone;//npc walk zone limit
+    private Vector2 minWalkPoint;//the edges of the walk zone
+    private Vector2 maxWalkPoint;
+    private bool hasWalkZone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +27,13 @@ public class VillagerMovement : MonoBehaviour
         waitCounter = waitTime;//set timers
         walkCounter = walkTime;
 
-        chooseDirection();
+        chooseDirection();//random direction
+        if (walkZone != null)//if no zone then walk anywhere
+        {
+            minWalkPoint = walkZone.bounds.min;//gets the lower corner of the zone
+            maxWalkPoint = walkZone.bounds.max;//gets the upper corner of the zone
+            hasWalkZone = true;//limits checks
+        }
     }
 
     // Update is called once per frame
@@ -36,16 +46,40 @@ public class VillagerMovement : MonoBehaviour
             switch (walkDirection)//movment in a direction
             {
                 case 0:
-                    myRigidbody.velocity = new Vector2(0, moveSpeed);
+                    myRigidbody.velocity = new Vector2(0, moveSpeed);//moving up
+                    if(hasWalkZone && transform.position.y > maxWalkPoint.y)//if limited area then tell it to stop
+                    {
+                        isWalking = false;
+                        waitCounter = waitTime;
+                        
+                    }
                     break;
                 case 1:
-                    myRigidbody.velocity = new Vector2(moveSpeed, 0);
+                    myRigidbody.velocity = new Vector2(moveSpeed, 0);//moving right
+                    if (hasWalkZone && transform.position.x > maxWalkPoint.x)//if limited area then tell it to stop
+                    {
+                        isWalking = false;
+                        waitCounter = waitTime;
+                        
+                    }
                     break;
                 case 2:
-                    myRigidbody.velocity = new Vector2(0, -moveSpeed);
+                    myRigidbody.velocity = new Vector2(0, -moveSpeed);//moving down
+                    if (hasWalkZone && transform.position.y < minWalkPoint.y)//if limited area then tell it to stop
+                    {
+                        isWalking = false;
+                        waitCounter = waitTime;
+                        
+                    }
                     break;
                 case 3:
-                    myRigidbody.velocity = new Vector2(-moveSpeed, 0);
+                    myRigidbody.velocity = new Vector2(-moveSpeed, 0);//moving left
+                    if (hasWalkZone && transform.position.x < maxWalkPoint.x)//if limited area then tell it to stop
+                    {
+                        isWalking = false;
+                        waitCounter = waitTime;
+                       
+                    }
                     break;
             }
 
@@ -58,7 +92,7 @@ public class VillagerMovement : MonoBehaviour
         else
         {
             waitCounter -= Time.deltaTime;//wait time counting down
-            myRigidbody.velocity = Vector2.zero;
+            myRigidbody.velocity = Vector2.zero;//set back to zero
 
             if(waitCounter < 0)
             {
