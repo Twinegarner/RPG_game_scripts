@@ -20,10 +20,14 @@ public class VillagerMovement : MonoBehaviour
     private Vector2 maxWalkPoint;
     private bool hasWalkZone = false;
 
+    public bool canMove;//checks if the npc can move during cutsences
+    private DialogueManager theDM;//the refrance to the dialogue manager
+
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();//get and set the rigidbody componet
+        theDM = FindObjectOfType<DialogueManager>();//finds the dialogue manager
         waitCounter = waitTime;//set timers
         walkCounter = walkTime;
 
@@ -34,11 +38,23 @@ public class VillagerMovement : MonoBehaviour
             maxWalkPoint = walkZone.bounds.max;//gets the upper corner of the zone
             hasWalkZone = true;//limits checks
         }
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!theDM.dialogueActive)
+        {
+            canMove = true;//any can move
+        }
+
+        if(!canMove)//if can not move then set movment to zero
+        {
+            myRigidbody.velocity = Vector2.zero;//stop movment
+            return;//jump out
+        }
+
         if (isWalking)//if the player is walking set time
         {
             walkCounter -= Time.deltaTime;//count down

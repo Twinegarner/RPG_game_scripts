@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private float attackTimeCounter;
 
     public string startPoint;//the player start point in each level
+    public bool canMove;//checks if the player can move
+
     // Start is called before the first frame update
     
     void Start()
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -44,6 +46,12 @@ public class PlayerController : MonoBehaviour
     {
         //no movement check
         PlayerMoving = false;
+
+        if(!canMove)//if talking to npc stop moving 
+        {
+            myRigidbody2D.velocity = Vector2.zero;//stop moving
+            return;
+        }
         //check if attacking
         if (!attacking)
         {
