@@ -12,7 +12,7 @@ public class QuestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        questCompleted = new bool[questCompleted.Length];//make an array the size of quests
+        questCompleted = new bool[quests.Length];//make an array the size of quests
     }
 
     // Update is called once per frame
