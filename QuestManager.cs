@@ -9,6 +9,10 @@ public class QuestManager : MonoBehaviour
 
     public DialogueManager theDM;//the dialogue manager for dialogue
 
+    public string itemCollected;//save the item the player collects
+
+    public string enemyKilled;//the name of the enemy killed
+
     // Start is called before the first frame update
     void Start()
     {

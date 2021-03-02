@@ -10,12 +10,17 @@ public class EnemyHealthManager : MonoBehaviour
     private PlayerStats thePlayerStats;//gets the player stats
     public int expToGive;//the amount of exp
 
+    public string enemyQuestName;//if part of a quest
+    private QuestManager theQM;//the refrance to the quest manager
+
+
     // Start is called before the first frame update
     void Start()
     {
         //set up player health
         CurrentHealth = MaxHealth;
         thePlayerStats = FindObjectOfType<PlayerStats>();//find the object player stats
+        theQM = FindObjectOfType<QuestManager>();//find object of quest manager
     }
 
     // Update is called once per frame
@@ -24,6 +29,7 @@ public class EnemyHealthManager : MonoBehaviour
         //player death condtion
         if (CurrentHealth <= 0)
         {
+            theQM.enemyKilled = enemyQuestName;//if quest is asking for the enemy killed
             Destroy(gameObject);//gets rid of the enemy
             //now give exp
             thePlayerStats.addExperience(expToGive);
