@@ -14,6 +14,8 @@ public class PlayerHealthManager : MonoBehaviour
 
     private SpriteRenderer playerSprite;//the player object to change alpha
 
+    private SFXManager sfxMan;//sound effect manager
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,8 @@ public class PlayerHealthManager : MonoBehaviour
         PlayerHealth = PlayerMaxHealth;
         //set player sprite
         playerSprite = GetComponent<SpriteRenderer>();
+        //set the sound effect manager
+        sfxMan = FindObjectOfType<SFXManager>();
     }
 
     // Update is called once per frame
@@ -29,6 +33,7 @@ public class PlayerHealthManager : MonoBehaviour
         //player death condtion
         if(PlayerHealth <= 0)//if player dies
         {
+            sfxMan.playerKilled.Play();//player killed sound
             gameObject.SetActive(false);//turns off the player
 
         }
@@ -65,6 +70,7 @@ public class PlayerHealthManager : MonoBehaviour
 
         flashActive = true;
         flashCounter = flashLength;//set the length of the flashing
+        sfxMan.playerHurt.Play();//play plyer damage 
 
 
     }

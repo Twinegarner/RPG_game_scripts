@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private float currentMoveSpeed;//handles the diangnal movespeed
     private bool PlayerMoving; // keeps track of player currently moving
     public Vector2 LastMove; //saves the last move of the player
+    private Vector2 moveInput;//hold the movment
 
     private Rigidbody2D myRigidbody2D; //gets the info from the players rigidbody2D
     private Animator anim; //gets the info from animator 
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
     public string startPoint;//the player start point in each level
     public bool canMove;//checks if the player can move
 
+    private SFXManager sfxMan;//controlls the sound effect
+
+
     // Start is called before the first frame update
     
     void Start()
@@ -28,6 +32,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         //prep the players rigidbody2d
         myRigidbody2D = GetComponent<Rigidbody2D>();
+        //find the sfx manager
+        sfxMan = FindObjectOfType<SFXManager>();
         //save the player in muliple levels
         if (!playerExists)
         {
@@ -39,6 +45,7 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
         canMove = true;
+        LastMove = new Vector2(0, -1f);//set the face down for start
     }
 
     // Update is called once per frame
@@ -55,36 +62,51 @@ public class PlayerController : MonoBehaviour
         //check if attacking
         if (!attacking)
         {
-            if (Input.GetAxisRaw("Horizontal") != 0f)//checks if player is moving on x axis
-            {
-                //the delta time is for fram rate issues movespeed is the over all player movement 
-                //---transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-                myRigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * currentMoveSpeed, myRigidbody2D.velocity.y);
-                //playermovement update
-                PlayerMoving = true;
-                //save last movment
-                LastMove = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
+            /* if (Input.GetAxisRaw("Horizontal") != 0f)//checks if player is moving on x axis
+             {
+                 //the delta time is for fram rate issues movespeed is the over all player movement 
+                 //---transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
+                 myRigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * currentMoveSpeed, myRigidbody2D.velocity.y);
+                 //playermovement update
+                 PlayerMoving = true;
+                 //save last movment
+                 LastMove = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
 
-            }
-            if (Input.GetAxisRaw("Vertical") != 0f)//checks if player is moving on y axis
-            {
-                //---transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-                myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, Input.GetAxisRaw("Vertical") * currentMoveSpeed);
-                //playermovement update
-                PlayerMoving = true;
-                //save last movment
-                LastMove = new Vector2(0f, Input.GetAxisRaw("Vertical"));
+             }
+             if (Input.GetAxisRaw("Vertical") != 0f)//checks if player is moving on y axis
+             {
+                 //---transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
+                 myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, Input.GetAxisRaw("Vertical") * currentMoveSpeed);
+                 //playermovement update
+                 PlayerMoving = true;
+                 //save last movment
+                 LastMove = new Vector2(0f, Input.GetAxisRaw("Vertical"));
 
-            }
-            //-------------------no movement checks-------------------------
-            if (Input.GetAxisRaw("Horizontal") == 0f)//checks if player is not moving
+             }
+             //-------------------no movement checks-------------------------
+             if (Input.GetAxisRaw("Horizontal") == 0f)//checks if player is not moving
+             {
+                 myRigidbody2D.velocity = new Vector2(0f, myRigidbody2D.velocity.y);
+             }
+             if (Input.GetAxisRaw("Vertical") == 0f)
+             {
+                 myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, 0f);
+             }*/
+            //---------------------new movement----------------------
+            moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;//normilze the intput
+
+            if(moveInput != Vector2.zero)//if moving
             {
-                myRigidbody2D.velocity = new Vector2(0f, myRigidbody2D.velocity.y);
+                myRigidbody2D.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);//movement
+                PlayerMoving = true;//check if player is moving
+                LastMove = moveInput;//save the last move
             }
-            if (Input.GetAxisRaw("Vertical") == 0f)
+            else
             {
-                myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, 0f);
+                myRigidbody2D.velocity = Vector2.zero;//stop moving if else
             }
+
+
             //-------------------attack anim--------------------------
             if (Input.GetKeyDown(KeyCode.J))//if the attack key "J" is pressed attack
             {
@@ -92,10 +114,11 @@ public class PlayerController : MonoBehaviour
                 attacking = true;//check attak
                 myRigidbody2D.velocity = Vector2.zero;//limit movment
                 anim.SetBool("Attack", true);//update animator
+                sfxMan.playerAttack.Play();//play the attack audio
 
             }
             //handle the diagnale movemnt
-            if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f && Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.5f)
+            /*if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f && Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.5f)
             {
                 currentMoveSpeed = moveSpeed / 1.414f;
             }
@@ -103,7 +126,7 @@ public class PlayerController : MonoBehaviour
             {
                 currentMoveSpeed = moveSpeed;
             }
-
+            */
 
         }
 

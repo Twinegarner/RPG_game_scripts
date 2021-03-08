@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class QuestObject : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class QuestObject : MonoBehaviour
     public bool isEnemyQuest;//checks if enemy quest
     public string targetEnemy;//targets name
     public int enemiesToKill;//the number to kill
-    private int enemyKillCount;//the amount to kill
+    public int enemyKillCount;//the amount to kill//note change from private
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,7 @@ public class QuestObject : MonoBehaviour
             {
                 theQM.enemyKilled = null;
                 enemyKillCount++;
+                //Console.WriteLine("enemy kill count" + enemyKillCount);
             }
             if(enemyKillCount >= enemiesToKill)//if more then one target
             {
