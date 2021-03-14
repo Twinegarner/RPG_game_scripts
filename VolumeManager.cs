@@ -23,9 +23,23 @@ public class VolumeManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+   /* // Update is called once per frame
     void Update()
     {
         
+    }*/
+   public void setAduioLevel(float audioLevel)//sets the aduio level
+    {
+
+        currentVolumeLevel = audioLevel;
+        if (currentVolumeLevel > maxVolumeLevel)//safty net for volume
+        {
+            currentVolumeLevel = maxVolumeLevel;
+        }
+
+        for (int i = 0; i < vcObjects.Length; i++)//loop through array
+        {
+            vcObjects[i].SetAudioLevel(currentVolumeLevel);//set the audio levels
+        }
     }
 }
