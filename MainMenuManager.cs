@@ -15,5 +15,10 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();//quit the game
     }
 
+    public void restartMain()//restart to the main menu
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);//load the intro level
+    }
+
 
 }

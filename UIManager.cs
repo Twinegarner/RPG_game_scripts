@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public Slider HPbar;//the hp bar and slider info
     public Text HPtext;
     public PlayerHealthManager playerHealth;//call to player health
+    public GameObject options;//the options object
 
     private PlayerStats thePS;// the player stats call
     public Text levelText;//the info on the players level text
@@ -42,6 +43,17 @@ public class UIManager : MonoBehaviour
         HPtext.text = "HP: " + playerHealth.PlayerHealth.ToString() + "/" + playerHealth.PlayerMaxHealth.ToString();//get the hp and write it to the hp bar and text
         //exp
         levelText.text = "Lvl: " + thePS.currentLevel;
+        //if options is hit
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (!options.activeSelf)
+            {
+                options.SetActive(true);
+
+            }
+            
+        }
+
 
     }
 }
