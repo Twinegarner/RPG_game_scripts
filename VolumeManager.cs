@@ -42,4 +42,10 @@ public class VolumeManager : MonoBehaviour
             vcObjects[i].SetAudioLevel(currentVolumeLevel);//set the audio levels
         }
     }
+
+
+    public float getAudioLevel()//returns the audioLevel
+    {
+        return currentVolumeLevel;
+    }
 }

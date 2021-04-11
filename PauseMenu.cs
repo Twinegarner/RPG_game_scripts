@@ -32,6 +32,10 @@ public class PauseMenu : MonoBehaviour
                 togglePause();
             }
         }
+        if(menuToggle.activeSelf && isPaused == false)//fix for webgl / editor errors
+        {
+            togglePause();
+        }
     }
 
     public void togglePause()//run when paused
@@ -45,7 +49,11 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
-            menuToggle.SetActive(true);
+            if (!menuToggle.activeSelf)
+            {
+                menuToggle.SetActive(true);
+            }
+            //menuToggle.SetActive(true);
             isPaused = true;
             Time.timeScale = 0;//stop game
         }

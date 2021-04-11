@@ -11,6 +11,10 @@ public class LoadNewArea : MonoBehaviour
 
     private PlayerController thePlayer;//refrance to the player controller for spawn points
 
+    public bool forceLevel;//trigger to force a level change
+
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,15 +25,24 @@ public class LoadNewArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (forceLevel)
+        {
+            forcedLevelLoader();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)//find the trigger when the player walks over trigger box
     {
-        if(other.gameObject.name == "Player")
+        if(other.gameObject.name == "Player")//loads new level
         {
             SceneManager.LoadScene(levelToLoad);
             thePlayer.startPoint = exitPoint;//tells the players start point to the exit point
         }
+    }
+
+    public void forcedLevelLoader()//force a level load
+    {
+
+        SceneManager.LoadScene(levelToLoad);
     }
 }
