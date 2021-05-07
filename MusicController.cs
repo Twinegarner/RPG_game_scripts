@@ -39,6 +39,18 @@ public class MusicController : MonoBehaviour
             musicTracks[currentTrack].Stop();//stop the music
         }
     }
+
+    public void toggleMusicPlay()
+    {
+        if (musicCanPlay)
+        {
+            musicCanPlay = false;
+        }
+        else
+        {
+            musicCanPlay = true;
+        }
+    }
     
     public void SwitchTrack(int newTrack)//changes the music track
     {

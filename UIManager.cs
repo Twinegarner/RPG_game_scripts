@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
         //exp
         levelText.text = "Lvl: " + thePS.currentLevel;
         //if options is hit
-        if (Input.GetKeyUp(KeyCode.Escape))
+        /*if (Input.GetKeyUp(KeyCode.Escape))
         {
             if (!options.activeSelf)
             {
@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
 
             }
             
-        }
+        }*/
 
 
     }

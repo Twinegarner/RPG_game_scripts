@@ -2,17 +2,21 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
 
     public bool isPaused;
     public GameObject menuToggle;
-    // Start is called before the first frame update
+    public Button startingButton;
+    private StartingButtonSelect startButton;
+
     void Start()
     {
-        //isPaused = false;//default not pasued
+        startButton = FindObjectOfType<StartingButtonSelect>();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -56,6 +60,11 @@ public class PauseMenu : MonoBehaviour
             //menuToggle.SetActive(true);
             isPaused = true;
             Time.timeScale = 0;//stop game
+            if(startingButton != null)
+            {
+                startButton.selectTrigger(startingButton);
+            }
+            
         }
     }
 }

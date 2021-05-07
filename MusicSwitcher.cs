@@ -7,6 +7,7 @@ public class MusicSwitcher : MonoBehaviour
     private MusicController theMC;//ref to the music controller
     public int newTrack;//the new track for the zone
     public bool switchOnStart;//will the track switch on level start
+    
 
     // Start is called before the first frame update
     void Start()
@@ -20,11 +21,7 @@ public class MusicSwitcher : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     void OnTriggerEnter2D(Collider2D other)//if enter a zone with special music
     {

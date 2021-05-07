@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void restartMain()//restart to the main menu
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);//load the intro level
+        SceneManager.LoadScene(1);//load the intro level
     }
 
     public void findParentHolder(bool wantActive)
